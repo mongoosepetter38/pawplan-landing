@@ -19,5 +19,6 @@ export default async function handler(req, res) {
   });
 
   const data = await response.json();
+  console.log('MailerLite response:', JSON.stringify(data));
   return res.status(response.ok ? 200 : 400).json(data);
 }

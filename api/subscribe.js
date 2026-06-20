@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   const { email } = req.body;
   if (!email) return res.status(400).json({ error: 'Email required' });
 
-  const PUB_ID = 'ec3f3d8b-1b8a-40c8-bee8-eb72d82206ee';
+  const PUB_ID = 'pub_ec3f3d8b-1b8a-40c8-bee8-eb72d82206ee';
 
   const response = await fetch(`https://api.beehiiv.com/v2/publications/${PUB_ID}/subscriptions`, {
     method: 'POST',

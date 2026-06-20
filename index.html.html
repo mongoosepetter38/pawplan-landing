@@ -910,33 +910,57 @@
 </div>
 
 <script>
-  function showToast() {
+  const GROUP_ID = '19080966680053895043';
+
+  async function submitEmail(email) {
+    const API_KEY = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiOTViODMxYTM0MmFmYzVhNDc0ZDM1MjBlZmIwMTJhMmE1ZmM1MzExMGI0YTEyZDkwYTg5ZDNlOWRiNDYzODNhZmU4ZTllY2MyNDA2YjA2MmYiLCJpYXQiOjE3ODE5NzA1MTAuMjUzNjQxLCJuYmYiOjE3ODE5NzA1MTAuMjUzNjQ0LCJleHAiOjQ5Mzc2NDQxMTAuMjUwMjY2LCJzdWIiOiIyNDc2Mjg3Iiwic2NvcGVzIjpbXX0.DCw3UBo_2wKpjx108OUuN-WF3FHdmxTR2B8PDvFiO_nNzNa3sOsjeJXMenjfIXCMKpQsKdbeLYmAr-ylvE5skfO3313KWECEVZbuwJ0BzVjwcU2eP46krS4gil4T3adNrQoHQk-v8D6vk1mOCbWjA7j8Gb_chTXUx3yNPZ_sKmK-zAs_Fbw0niYABKj3jVwkx_ct1FqmiVvIXmx0lDc-CPtp3jErIffFyajD8OnbM3oIaHK-I1ipFSNebOOVVYQyr592N0koCJWSS_uUZs42veQTmENC72Jzh_HSKytzudE_PwGGsmqZJBMwt9gKYJr9e9ImIwi_iH9u4wM2LrloZc1EJD8-k-esf18l30NzwzFqXg6gwkABtnjQh29QJhYBGXlxvtr8BmFpvqXHfatohRs8mNPZoCmfK6QR_RZAxRWSU7Ik5ao3zxbYORwM8J6sqUM6rJJYTiavD0UAmCyocTmPa97DDfeVfKeErqbsq83rX1RMnRlA9CaEG2gB-jPBv_n3XdeA6dlkTGbCwmSYJlQTox2eYaI6XxWdsYeu3j8jXZN1UgcgWplJWjZWGGU3he7ntYqcDkeHyVUPyfJNDYDTnTbxh-IkFoF5Tmxl5K3hfK2jjDEPMfdZaGaFkJhWBtrAq-m7di6oN0eHV3NZ1GA8APDyjvGNR3Msi710ZkE';
+    const response = await fetch('https://connect.mailerlite.com/api/subscribers', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + API_KEY
+      },
+      body: JSON.stringify({ email: email, groups: [GROUP_ID] })
+    });
+    return response.ok;
+  }
+
+  function showToast(success) {
     const toast = document.getElementById('toast');
+    toast.textContent = success ? '🐾 You\'re on the list! We\'ll be in touch.' : '⚠️ Something went wrong — try again.';
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 4000);
   }
 
-  function handleWaitlist() {
-    const email = document.getElementById('email-input').value;
+  async function handleWaitlist() {
+    const emailEl = document.getElementById('email-input');
+    const email = emailEl.value;
     if (!email || !email.includes('@')) {
-      document.getElementById('email-input').focus();
-      document.getElementById('email-input').style.borderColor = '#D4A843';
-      setTimeout(() => document.getElementById('email-input').style.borderColor = '', 1500);
+      emailEl.style.borderColor = '#D4A843';
+      setTimeout(() => emailEl.style.borderColor = '', 1500);
       return;
     }
     const btn = document.getElementById('join-btn');
-    btn.textContent = '✓ You\'re in!';
-    btn.classList.add('success');
-    showToast();
+    btn.textContent = 'Saving...';
+    const ok = await submitEmail(email);
+    if (ok) {
+      btn.textContent = '✓ You\'re in!';
+      btn.classList.add('success');
+    } else {
+      btn.textContent = 'Get Early Access';
+    }
+    showToast(ok);
   }
 
-  function handleWaitlist2() {
-    const email = document.getElementById('email-input-2').value;
+  async function handleWaitlist2() {
+    const emailEl = document.getElementById('email-input-2');
+    const email = emailEl.value;
     if (!email || !email.includes('@')) {
-      document.getElementById('email-input-2').focus();
+      emailEl.focus();
       return;
     }
-    showToast();
+    const ok = await submitEmail(email);
+    showToast(ok);
   }
 
   document.getElementById('email-input').addEventListener('keydown', function(e) {

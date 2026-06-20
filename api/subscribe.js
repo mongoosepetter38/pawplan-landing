@@ -13,12 +13,18 @@ export default async function handler(req, res) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'Accept': 'application/json',
       'Authorization': 'Bearer ' + process.env.MAILERLITE_API_KEY
     },
-    body: JSON.stringify({ email, groups: ['19080966680053895043'] })
+    body: JSON.stringify({
+      email: email,
+      groups: ['19080966680053895043']
+    })
   });
 
-  const data = await response.json();
-  console.log('MailerLite response:', JSON.stringify(data));
-  return res.status(response.ok ? 200 : 400).json(data);
+  const text = await response.text();
+  console.log('MailerLite status:', response.status);
+  console.log('MailerLite body:', text);
+
+  return res.status(response.ok ? 200 : 400).send(text);
 }

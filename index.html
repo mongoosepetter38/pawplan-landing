@@ -910,16 +910,13 @@
 </div>
 
 <script>
-  const GROUP_ID = '19080966680053895043'; 
-
-async function submitEmail(email) {
-  const response = await fetch('/api/subscribe', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email })
-  });
-  return response.ok;
-}
+  async function submitEmail(email) {
+    const response = await fetch('/api/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email })
+    });
+    return response.ok;
   }
 
   function showToast(success) {

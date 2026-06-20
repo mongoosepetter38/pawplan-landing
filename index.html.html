@@ -912,17 +912,14 @@
 <script>
   const GROUP_ID = '19080966680053895043';
 
-  async function submitEmail(email) {
-    const API_KEY = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiM2U3YTE2Y2JkNDUyNWYzMDE1Zjk3YjAwZDI3MWM2OTA0MjQwODJlNWYwYjUzZGQ0MGViNzIwYTdjOTI4MDU5YjMxY2YyZGI3YjdmN2NkMmEiLCJpYXQiOjE3ODE5NzMyNDkuOTIxMDUzLCJuYmYiOjE3ODE5NzMyNDkuOTIxMDU1LCJleHAiOjQ5Mzc2NDY4NDkuOTE0NDA5LCJzdWIiOiIyNDc2Mjg3Iiwic2NvcGVzIjpbXX0.RbMhLj5gsAC4ckkWZiZNAuX0G4ksngdC0cjhG0h1gqQxMLd1tuzFxACd-hs39McZWUsce9ysxNWc_MhXd5qJQM3xmcLeo5xh71GImYippw5bWv7ucKJkcoL7F7V8xa7fS8tTnbbON_aOVCC_2OKFUAEU8wnukOOCNPd_kl8qCYN1VUtw8G2-glyYfa9jfjCTue_wqGFoJEOXhgcS-8vsb3am0kALHzZSSXZuXf0YYXkFSiqxcMp9QwOQVIit23ME-TSBnNSkWXLtedrNr6jd7jf--k5IMuk00guIe0Of_ECqIyOlFVM3z6fTWGZhzmQK8OmnUn4WW7MyTiQ72pp8orJptgTr8YMDN5zowuUYI9xLgDNFeZU4QvojsYH6psYXjaoMvm1Ei-7mejC4NlzgoxQ8qDdrkCh-5qFZOlbGFYm45z11jdqYES0YKRFeVfZHHI8FAMIXtLtl7an6V5f6Wb1j7KqA3muJzzxyz7YQAgJrKtkEr73KBMtCuTcvpAWWC2BzZKNYzDFMQ4kTZo4SJ6qRqDBMD-oi1jO0HOtU-pRqBM_vdlblCal3E46sRbVANbeOkhGtOMRMgsArmdCILmekXs0PgNUMo0a9kZpBdZ4SMqInVEWo-2OzMWFJ8a2gk-Cn7LwkWfxq4MTuD5-mKZAHTZZ-xKh9l-ltv_e7IpM';
-    const response = await fetch('https://connect.mailerlite.com/api/subscribers', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + API_KEY
-      },
-      body: JSON.stringify({ email: email, groups: [GROUP_ID] })
-    });
-    return response.ok;
+async function submitEmail(email) {
+  const response = await fetch('/api/subscribe', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email })
+  });
+  return response.ok;
+}
   }
 
   function showToast(success) {
